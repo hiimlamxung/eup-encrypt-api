@@ -1,6 +1,6 @@
 <?php
 
-namespace Hiimlamxung\EupEncryptApi\Facades;
+namespace Hiimlamxung\EupEncryptApi\App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
