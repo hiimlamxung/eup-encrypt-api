@@ -31,7 +31,7 @@ class CanDecryptRSA
 
         $decryptData = RSA::decryptByPrivateKey($encryptedData);
         if (is_null($decryptData)) {
-            $this->failedResponse($request, $next, $customEncyptedName);
+            $this->failedResponse($request, $next);
         }
         $request->merge([
             $encryptedName => Helper::objectToArray(json_decode($decryptData))
