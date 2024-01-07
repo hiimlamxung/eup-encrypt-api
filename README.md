@@ -36,6 +36,7 @@ Trước khi sử dụng cần thiết lập theo các bước sau:
 
 ##### Sử dụng:
 Encypt data cần mã hoã (dạng chuỗi) trả về response API.
+
 Sử dụng EupCrypt Facede:
 `use \Hiimlamxung\EupEncryptApi\App\Facades\EupCrypt;`
 
@@ -123,8 +124,13 @@ Sử dụng trong route:
 
     Route::post('/update', 'UserController@update')->middleware('can.decrypt.rsa');
     
-    // Có thể tự định nghĩa param name riêng biệt muốn check ,thay vì là 'encrypted_data' được định nghĩa ở config. Ở đây t lấy theo param name là encryt_param
+    /**
+    * Có thể tự định nghĩa param name riêng biệt muốn check,
+    * thay vì là 'encrypted_data' được định nghĩa ở config.
+    * Ở đây t lấy theo param name là encryt_param
+    */
     Route::post('/store', 'UserController@store')->middleware('can.decrypt.rsa:encryt_param');
     
 DONE. Nếu thấy bug thì contact ngay lamhv@eupgroup.net =))
+
 Chúc bạn may mắn và làm thành công =))
