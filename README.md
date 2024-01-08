@@ -1,7 +1,7 @@
 # eup-encrypt-api
 ### 1. Mô tả:
 - Sử dụng mã hoá AES để encrypt data trả dữ liệu cho API
-- Decrypt requesrt từ phía client đã được encrypt mã hoá RSA
+- Decrypt request từ phía client đã được encrypt mã hoá RSA
 ### 2. Yêu cầu:
 Sử dụng trên PHP Laravel framework version 5.6 trở lên.
 ### 3. Cài đặt package:
