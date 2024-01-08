@@ -126,8 +126,8 @@ Sử dụng trong route:
     
     /**
     * Có thể tự định nghĩa param name riêng biệt muốn check,
-    * thay vì là 'encrypted_data' được định nghĩa ở config.
-    * Ở đây t lấy theo param name là encryt_param
+    * thay vì lấy theo trong config là 'encrypted_data'.
+    * Ở đây ta lấy theo param name là encryt_param
     */
     Route::post('/store', 'UserController@store')->middleware('can.decrypt.rsa:encryt_param');
     
