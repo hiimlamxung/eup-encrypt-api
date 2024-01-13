@@ -37,7 +37,7 @@ Trước khi sử dụng cần thiết lập theo các bước sau:
 ##### Sử dụng:
 Encypt data cần mã hoã (dạng chuỗi) trả về response API.
 
-Sử dụng EupCrypt Facede:
+Sử dụng EupCrypt Facade:
 `use \Hiimlamxung\EupEncryptApi\App\Facades\EupCrypt;`
 
     $users = User::get();
@@ -104,7 +104,7 @@ Middleware mới tạo sẽ như sau:
             ]
         }
     }
-Middleware này sẽ check và giải mã request có param name là 'encrypted_data' từ phía client gửi lên. Nếu muốn sử dụng param name khác có thể  định nhĩa lại trong config
+Middleware này sẽ check và giải mã request có param name là 'encrypted_data' từ phía client gửi lên. Nếu muốn sử dụng param name khác có thể  định nghĩa lại trong config
 
         'decrypt_req' => [
         /**

@@ -31,7 +31,11 @@ class CanDecryptRSA
 
         $decryptData = RSA::decryptByPrivateKey($encryptedData);
         if (is_null($decryptData)) {
-            $this->failedResponse($request, $next);
+            $response = $this->failedResponse($request, $next);
+            if ($response instanceof \Symfony\Component\HttpFoundation\Response) {
+                return $response;
+            }
+            throw CouldNotDecryptData::make();
         }
         $request->merge([
             $encryptedName => Helper::objectToArray(json_decode($decryptData))
