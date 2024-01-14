@@ -14,7 +14,7 @@ class EupEncrypter extends Encrypter
     public function __construct()
     {
         $this->key = config('eup_encrypt_api.encrypt_res.key');
-        $this->key = config('eup_encrypt_api.encrypt_res.cipher');
+        $this->cipher = config('eup_encrypt_api.encrypt_res.cipher');
     }
 
     public function encrypt($value, $serialize = false, $randomIv = false) {
