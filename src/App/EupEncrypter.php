@@ -3,14 +3,64 @@
 namespace Hiimlamxung\EupEncryptApi\App;
 
 use Illuminate\Encryption\Encrypter;
+use Illuminate\Contracts\Encryption\EncryptException;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class EupEncrypter extends Encrypter
 {
-    public function encrypt($value, $serialize = false) {
-        return parent::encrypt($value, $serialize);
+    protected $key;
+    protected $cipher;
+
+    public function __construct()
+    {
+        $this->key = config('eup_encrypt_api.encrypt_res.key');
+        $this->key = config('eup_encrypt_api.encrypt_res.cipher');
+    }
+
+    public function encrypt($value, $serialize = false, $randomIv = false) {
+        $iv = ($randomIv) ? random_bytes(openssl_cipher_iv_length(strtolower($this->cipher)))
+        : base64_decode(config('eup_encrypt_api.encrypt_res.iv'));
+
+        $value = \openssl_encrypt(
+            $serialize ? serialize($value) : $value,
+            strtolower($this->cipher), $this->key, 0, $iv
+        );
+
+        if ($value === false) {
+            throw new EncryptException('Could not encrypt the data.');
+        }
+
+        $iv = base64_encode($iv);
+
+        $mac = $this->hash($iv = base64_encode($iv), $value);
+
+        $json = json_encode(compact('iv', 'value', 'mac'));
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new EncryptException('Could not encrypt the data.');
+        }
+
+        return base64_encode($json);
     }
 
     public function decrypt($payload, $unserialize = false) {
-        return parent::decrypt($payload, $unserialize);
+        // return parent::decrypt($payload, $unserialize);
+
+        $payload = $this->getJsonPayload($payload);
+
+        $iv = base64_decode($payload['iv']);
+
+        // Here we will decrypt the value. If we are able to successfully decrypt it
+        // we will then unserialize it and return it out to the caller. If we are
+        // unable to decrypt this value we will throw out an exception message.
+        $decrypted = \openssl_decrypt(
+            $payload['value'], strtolower($this->cipher), $this->key, 0, $iv
+        );
+
+        if ($decrypted === false) {
+            throw new DecryptException('Could not decrypt the data.');
+        }
+
+        return $unserialize ? unserialize($decrypted) : $decrypted;
     }
 }

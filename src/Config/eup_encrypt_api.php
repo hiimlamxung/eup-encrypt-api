@@ -2,7 +2,8 @@
 return [
     'encrypt_res' => [
         'key' => env('EEA_KEY_FOR_ENCRYPT'),
-        'cipher' => 'AES-256-CBC'
+        'cipher' => 'AES-256-CBC',
+        'id' => 'FQ92T3hSWzdwS5wDhVscoQ=='
     ],
     'decrypt_req' => [
         /**
