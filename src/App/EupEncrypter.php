@@ -32,7 +32,7 @@ class EupEncrypter extends Encrypter
 
         $iv = base64_encode($iv);
 
-        $mac = $this->hash($iv = base64_encode($iv), $value);
+        $mac = $this->hash($iv, $value);
 
         $json = json_encode(compact('iv', 'value', 'mac'));
 
