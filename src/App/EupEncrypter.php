@@ -11,12 +11,6 @@ class EupEncrypter extends Encrypter
     protected $key;
     protected $cipher;
 
-    public function __construct()
-    {
-        $this->key = config('eup_encrypt_api.encrypt_res.key');
-        $this->cipher = config('eup_encrypt_api.encrypt_res.cipher');
-    }
-
     public function encrypt($value, $serialize = false, $randomIv = false) {
         $iv = ($randomIv) ? random_bytes(openssl_cipher_iv_length(strtolower($this->cipher)))
         : base64_decode(config('eup_encrypt_api.encrypt_res.iv'));
