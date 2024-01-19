@@ -3,7 +3,7 @@
 - Sử dụng mã hoá AES để encrypt data trả dữ liệu cho API
 - Decrypt request từ phía client đã được encrypt mã hoá RSA
 ### 2. Yêu cầu:
-Sử dụng trên PHP Laravel framework version 5.0 trở lên.
+Sử dụng trên PHP Laravel framework version 5.6 trở lên.
 ### 3. Cài đặt package:
 Run: `composer require hiimlamxung/eup-encrypt-api`
 
