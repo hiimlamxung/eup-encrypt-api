@@ -37,9 +37,22 @@ class EupEncrypter extends Encrypter
         return base64_encode($json);
     }
 
-    public function decrypt($payload, $unserialize = false) {
-        // return parent::decrypt($payload, $unserialize);
+    public function simpleEncrypt($value, $serialize = false) {
+        $iv = base64_decode(config('eup_encrypt_api.encrypt_res.iv'));
 
+        $value = \openssl_encrypt(
+            $serialize ? serialize($value) : $value,
+            strtolower($this->cipher), $this->key, 0, $iv
+        );
+
+        if ($value === false) {
+            throw new EncryptException('Could not encrypt the data.');
+        }
+
+        return $value;
+    }
+
+    public function decrypt($payload, $unserialize = false) {
         $payload = $this->getJsonPayload($payload);
 
         $iv = base64_decode($payload['iv']);
@@ -49,6 +62,24 @@ class EupEncrypter extends Encrypter
         // unable to decrypt this value we will throw out an exception message.
         $decrypted = \openssl_decrypt(
             $payload['value'], strtolower($this->cipher), $this->key, 0, $iv
+        );
+
+        if ($decrypted === false) {
+            throw new DecryptException('Could not decrypt the data.');
+        }
+
+        return $unserialize ? unserialize($decrypted) : $decrypted;
+    }
+
+    public function simpleDecrypt($encrypted, $unserialize = false) {
+
+        $iv = base64_decode(config('eup_encrypt_api.encrypt_res.iv'));
+
+        // Here we will decrypt the value. If we are able to successfully decrypt it
+        // we will then unserialize it and return it out to the caller. If we are
+        // unable to decrypt this value we will throw out an exception message.
+        $decrypted = \openssl_decrypt(
+            $encrypted, strtolower($this->cipher), $this->key, 0, $iv
         );
 
         if ($decrypted === false) {
